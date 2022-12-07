@@ -54,7 +54,7 @@ d3.csv("/vgsales.csv").then(function(data) {
     var arcs = g.selectAll("arc")
         .data(pie(Object.values(countObj)))
         .enter()
-
+s
     arcs.append("path")
         .attr("fill", (data, i)=>{
             return d3.schemeSet3[i];
