@@ -9,14 +9,10 @@ var tooltip = d3.select("body")
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden")
-    .style("background", "#000")
-    .text(function (console, numGames) {
-        console.log("Console: " + console);
-        console.log("Number of Games: " + numGames);
+    .style("background", "blue")
+    .text("a simple tooltip");
 
-        return console, numGames;
-    });
-
+console.log(width / 2)
 var svg = d3.select("body").append("svg")
     .attr("width", margin.left + margin.right + width)
     .attr("height", margin.top + margin.bottom + height)
@@ -29,7 +25,8 @@ var pie = d3.pie();
 // Creating arc
 var arc = d3.arc()
     .innerRadius(0)
-    .outerRadius(width / 4);
+    .outerRadius(width / 4)
+
 
 d3.csv("/vgsales.csv").then(function(data) {
     let consoles = "DS Wii PS3 PS4 GB Xbox"
@@ -51,14 +48,22 @@ d3.csv("/vgsales.csv").then(function(data) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
     //select all arcs in the grou
+    console.log(countObj)
+    //select all arcs in the grou
     var arcs = g.selectAll("arc")
         .data(pie(Object.values(countObj)))
         .enter()
-s
+
     arcs.append("path")
         .attr("fill", (data, i)=>{
             return d3.schemeSet3[i];
         })
         .attr("d", arc)
-
+        .on("mouseover", (data, i)=>{
+            console.log(i)
+            tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function(event){return tooltip.style("top", (event.pageY+5)+"px").style("left",(event.pageX+10)+"px");})
+        .on("mouseout", function(d){tooltip.text(d); return tooltip.style("visibility", "hidden");})
 });
+
