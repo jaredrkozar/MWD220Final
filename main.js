@@ -1,5 +1,6 @@
 // set the dimensions and margins of the graph
 var consoles = [{consoleName: '', games: []}]
+var year = "1988"
 
 var margin = {top: 300, right: 20, bottom: 50, left: 300},
     width = 1200 - margin.left - margin.right,
@@ -7,28 +8,26 @@ var margin = {top: 300, right: 20, bottom: 50, left: 300},
 var countObj = {};
 
 var svg = d3.select("body").append("svg")
-    .attr("width", margin.left + margin.right + width)
+    .attr("width", margin.left + margin.right + width + 300)
     .attr("height", margin.top + margin.bottom + height)
     .append("g")
     .attr("transform",
         "translate(100,100)")
 
-
-svg.append("text")
-    .text("eeeeee")
+var headerText = svg.append("text")
+    .text("Select an area from the left to view the games released for that console this year")
     .attr("x", 620)
     .attr("y", 20)
     .attr("font-weight",900)
     .attr("font-family", "Inter")
     .style("font-size", "34px");
 
-var rect = d3.select("body").append("svg")
-    .attr('x', 800)
-    .attr('y', 120)
-    .attr('width', 4000)
-    .attr('height', 600)
-    .attr('stroke', 'black')
-    .attr('fill', '#69a3b2');
+var gamesText = svg.append("text")
+    .attr("x", 620)
+    .attr("y", 60)
+    .attr("font-weight",900)
+    .attr("font-family", "Inter")
+    .style("font-size", "34px");
 
 var pie = d3.pie()
     .sort(null);
@@ -49,7 +48,7 @@ d3.csv("/vgsales.csv").then(function(data) {
         if(countObj[platform] === undefined) {
             countObj[platform] = 0;
         } else {
-            if (d.Year == "1988") {
+            if (d.Year == year) {
 
                 const result = consoles.filter(singleConsole => singleConsole.consoleName === d.Platform);
 
@@ -84,6 +83,9 @@ console.log(consoles)
         })
         .attr("d", arc)
         .on("mousedown", (data, i)=>{
-            headerText.text("ldldldldldl")
+            gamesText.html(function(d,i) {
+                return 'some text' + '<br/>' + 'some text';
+            })
+            headerText.text("There were " + consoles[i.index + 1].games.length + " " + consoles[i.index + 1].consoleName + " games released in " + year)
         })
 })
