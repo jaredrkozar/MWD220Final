@@ -15,8 +15,8 @@ var svg = d3.select("body").append("svg")
 
 
 svg.append("text")
-    .text("eeeeee")
-    .attr("x", 620)
+    .text("Top Selling Video Games")
+    .attr("x", 500)
     .attr("y", 20)
     .attr("font-weight",900)
     .attr("font-family", "Inter")
@@ -73,7 +73,7 @@ console.log(consoles)
         consoleLengths.push(consoles[i].games.length)
     }
 
-    //select all arcs in the grou
+    //select all arcs in the group
     var arcs = g.selectAll("arc")
         .data(pie(consoleLengths))
         .enter()
