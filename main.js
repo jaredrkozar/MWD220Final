@@ -58,14 +58,14 @@ function updateChart(year) {
 
     //we need to empty the array first because if we dont, when the user selects another year, theyll have all the data from the previous year(s) in the pie chart (so PS2 games could be in 1990, SNES in 1988 etc).
     consoles = [];
-    d3.csv("/vgsales.csv").then(function(data) {
+    d3.csv("svgsales.csv").then(function(data) {
 
         //goes through the rows using a for loop and adda them to array if they match the users specified year
         data.forEach(function(d) {
             if (d.Year == year && d.Platform != undefined) {
                 //if the year of the current row matches the year the user entered...
 
-                //putgames into array
+                //put games into array
                 const result = consoles.filter(singleConsole => singleConsole.consoleName === d.Platform);
 
                 //if the same console name is found in the array, push the current games title to that arrays console, and if there is no console in the consoles array with that platform, then creae a new console with the game title
