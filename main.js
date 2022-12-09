@@ -1,13 +1,19 @@
 // set the dimensions and margins of the graph
 var consoles = [{consoleName: '', games: []}]
-var year = "1988"
+var body = d3.select('body')
 
+d3.select("#nRadius").on("input", function() {
+    console.log(this.value)
+
+    updateChart(this.value);
+});
+
+updateChart("1988");
 var margin = {top: 300, right: 20, bottom: 50, left: 300},
     width = 1200 - margin.left - margin.right,
     height = 1200 - margin.top - margin.bottom;
-var countObj = {};
 
-var svg = d3.select("body").append("svg")
+var svg = body.append("svg")
     .attr("width", margin.left + margin.right + width + 300)
     .attr("height", margin.top + margin.bottom + height)
     .append("g")
@@ -25,9 +31,10 @@ var headerText = svg.append("text")
 var gamesText = svg.append("text")
     .attr("x", 620)
     .attr("y", 60)
+    .html(function (d) { return d.name; } + "<br />")
     .attr("font-weight",900)
     .attr("font-family", "Inter")
-    .style("font-size", "34px");
+    .style("font-size", "34px")
 
 var pie = d3.pie()
     .sort(null);
@@ -40,15 +47,14 @@ var arc = d3.arc()
 var textGroup = svg.append("g")
 
 var header = textGroup
-d3.csv("/vgsales.csv").then(function(data) {
 
-    // count how much each city occurs in list and store in countObj
-    data.forEach(function(d) {
-        var platform = d.Platform;
-        if(countObj[platform] === undefined) {
-            countObj[platform] = 0;
-        } else {
-            if (d.Year == year) {
+function updateChart(year) {
+    consoles = [];
+    d3.csv("/vgsales.csv").then(function(data) {
+
+        // count how much each city occurs in list and store in countObj
+        data.forEach(function(d) {
+            if (d.Year == year && d.Platform != undefined) {
 
                 const result = consoles.filter(singleConsole => singleConsole.consoleName === d.Platform);
 
@@ -58,34 +64,32 @@ d3.csv("/vgsales.csv").then(function(data) {
                     consoles.push({consoleName: d.Platform, games: [d.Name]})
                 }
             }
+        })
+
+        let g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .data(consoles)
+        //select all arcs in the grou
+
+        var consoleLengths = [];
+        for(i=1;i<consoles.length;i++){
+            consoleLengths.push(consoles[i].games.length)
         }
+
+        //select all arcs in the grou
+        var arcs = g.selectAll("arc")
+            .data(pie(consoleLengths))
+            .enter()
+
+        arcs.append("path")
+            .attr("fill", (data, i)=>{
+                return d3.schemeSet3[i];
+            })
+            .attr("d", arc)
+            .on("mousedown", (data, i)=>{
+                gamesText.html("DLLDLD \r\n kekekek")
+                headerText.text("There were " + consoles[i.index + 1].games.length + " " + consoles[i.index + 1].consoleName + " games released in " + year)
+            })
     })
 
-    let g = svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .data(consoles)
-    //select all arcs in the grou
-console.log(consoles)
-    var consoleLengths = [];
-    for(i=1;i<consoles.length;i++){
-        console.log(consoles[i].games.length)
-        consoleLengths.push(consoles[i].games.length)
-    }
-
-    //select all arcs in the grou
-    var arcs = g.selectAll("arc")
-        .data(pie(consoleLengths))
-        .enter()
-
-    arcs.append("path")
-        .attr("fill", (data, i)=>{
-            return d3.schemeSet3[i];
-        })
-        .attr("d", arc)
-        .on("mousedown", (data, i)=>{
-            gamesText.html(function(d,i) {
-                return 'some text' + '<br/>' + 'some text';
-            })
-            headerText.text("There were " + consoles[i.index + 1].games.length + " " + consoles[i.index + 1].consoleName + " games released in " + year)
-        })
-})
+}
