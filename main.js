@@ -7,7 +7,7 @@ function selectYear(){
     var inputVal = document.getElementById("yearInput").value;
 
     if (1988 <= inputVal <= 2017) {
-        titleText.text("View games released in " + inputVal)
+        titleText.text("View games released in " + inputVal+ "," +" click on chart to view.")
         updateChart(inputVal);
     } else {
         alert("Enter a year between 1988 and 2017")
