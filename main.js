@@ -58,7 +58,7 @@ function updateChart(year) {
     consoles = [];
     d3.csv("/vgsales.csv").then(function(data) {
 
-        // count how much each city occurs in list and store in countObj
+        //goes through the rows using a for loop and adda them to array if they match the users specified year
         data.forEach(function(d) {
             if (d.Year == year && d.Platform != undefined) {
                 //if the year of the current row matches the year the user entered...
