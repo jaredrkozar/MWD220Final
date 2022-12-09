@@ -3,7 +3,7 @@ var consoles = [{consoleName: '', games: []}]
 var body = d3.select('body')
 
 function selectYear(){
-    // Selecting the input element and get its value
+
     var inputVal = document.getElementById("yearInput").value;
 
     if (1988 <= inputVal <= 2017) {
@@ -78,7 +78,6 @@ function updateChart(year) {
             .data(consoles)
         //select all arcs in the grou
 
-        console.log(consoles)
         var consoleLengths = [];
         for(i=0;i<consoles.length;i++){
             consoleLengths.push(consoles[i].games.length)
