@@ -55,6 +55,8 @@ var arc = d3.arc()
 
 function updateChart(year) {
     //updates the chart when button is pressed
+
+    //we need to empty the array first because if we dont, when the user selects another year, theyll have all the data from the previous year(s) in the pie chart (so PS2 games could be in 1990, SNES in 1988 etc).
     consoles = [];
     d3.csv("/vgsales.csv").then(function(data) {
 
