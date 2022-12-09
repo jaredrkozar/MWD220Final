@@ -1,0 +1,51 @@
+.controls {
+    position: relative;
+    top: 150px;
+    left: 520px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+h3 {
+    position: absolute;
+    top: 250px;
+    left: 610px;
+    font-size: 30px;
+    font-weight: 500;
+    font-family: 'Inter', arial, serif;
+}
+
+.controls > button {
+    border-color: #00A3FF;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: white;
+    color: #00A3FF;
+    height: 60px;
+    width: 170px;
+    font-size: 25px;
+}
+
+button:hover {
+    background-color: #00A3FF;
+    color: white;
+}
+
+input[type=text] {
+    height: 60px;
+    width: 200px;
+    corner-radius: 6px;
+    border-color: lightgray;
+    border-style: solid;
+    font-size: 25px;
+}
+
+input[type=text]:focus {
+    border-color: #00A3FF;
+}
+
